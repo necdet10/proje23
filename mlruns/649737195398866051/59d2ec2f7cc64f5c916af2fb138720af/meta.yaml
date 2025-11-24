@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/seren/OneDrive/Masa%C3%BCst%C3%BC/proje23/mlruns/649737195398866051/59d2ec2f7cc64f5c916af2fb138720af/artifacts
+end_time: 1763994079675
+entry_point_name: ''
+experiment_id: '649737195398866051'
+lifecycle_stage: active
+run_id: 59d2ec2f7cc64f5c916af2fb138720af
+run_name: player_ranking_20251124_172119
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763994079473
+status: 3
+tags: []
+user_id: seren

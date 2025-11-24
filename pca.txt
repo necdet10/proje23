@@ -1,0 +1,26 @@
+
+📐 Temel Bileşen Analizi (PCA) Nedir?
+Temel Bileşen Analizi (Principal Component Analysis - PCA), verilerin boyutunu azaltmak için kullanılan istatistiksel bir tekniktir. Amacı, orijinal veri kümesindeki en fazla varyansı (değişimi) içeren yeni, daha az sayıda değişken (bunlara Temel Bileşenler denir) oluşturmaktır.
+
+Boyut Azaltma: Çok sayıda özelliğe (sütuna) sahip veri setlerini daha yönetilebilir bir boyuta indirir.
+
+Veri Özeti: Orijinal verinin temel yapısını ve en önemli bilgisini koruyarak özetler.
+
+Yeni Eksenler: Temel Bileşenler, orijinal özelliklerin birer lineer kombinasyonudur ve birbirleriyle ilişkisizdirler (ortogonaldirler). Birinci Temel Bileşen (PC1), verideki en büyük değişimi, İkinci Temel Bileşen (PC2) ise kalan verideki en büyük değişimi yakalar ve bu böyle devam eder.
+
+🏀 PCA ve Basketbol İlişkisi
+Basketbolda oyuncu performansını değerlendirmek için genellikle çok sayıda istatistik kullanılır (sayı, asist, ribaund, top çalma, blok, top kaybı, saha içi isabet yüzdesi vb.). Bu istatistiklerin hepsi birbiriyle ilişkilidir (örneğin, daha fazla hücum etme fırsatı bulan oyuncunun hem sayı hem de asist sayısı yüksek olabilir).
+
+PCA, bu durumu analiz etmek için mükemmel bir araçtır:
+
+Gereksiz Karmaşayı Azaltma: Bir oyuncuyu 20 farklı istatistikle tanımlamak yerine, PCA, bu 20 istatistiğin çoğunu kapsayan ve oyuncu profilini özetleyen 2 veya 3 Temel Bileşen oluşturabilir.
+
+Oyuncu Profilleri Çıkarma:
+
+PC1 (en yüksek varyans): Birinci Temel Bileşen, genellikle bir oyuncunun Genel Etkinliğini veya Sayı Atma Odaklılığını temsil edebilir (Sayı, İsabet Yüzdesi gibi istatistiklerin ağırlığı yüksek olabilir).
+
+PC2 (ikinci en yüksek varyans): İkinci Temel Bileşen, belki de Takım Oyunu ve Savunma özelliklerini temsil edebilir (Asist, Ribaund, Top Çalma istatistiklerinin ağırlığı yüksek olabilir).
+
+Karşılaştırma ve Keşif: Takımlar, bu bileşenleri kullanarak oyuncuları daha basit iki boyutlu bir grafik üzerinde konumlandırabilir. Bu, "çok yönlü oyun kurucular" ile "saf şutörler" gibi oyuncu tipleri arasındaki ayrımı daha net görmeyi sağlar ve yeni, gözden kaçan performans kalıplarını keşfetmeye yardımcı olur.
+
+Kısacası, PCA basketbol istatistiklerini daha anlamlı ve özetleyici bir performan metriğine dönüştürerek oyuncu değerlendirmesini basitleştirir ve derinleştirir.

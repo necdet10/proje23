@@ -1,0 +1,25 @@
+pandas
+numpy
+
+# Machine Learning
+scikit-learn
+joblib
+
+# Kaggle API
+kaggle
+
+# MLflow
+mlflow
+
+# Visualization
+matplotlib
+seaborn
+plotly
+
+# LLM Integration
+openai
+streamlit
+
+# Testing
+pytest
+pytest-cov
