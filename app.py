@@ -4,10 +4,9 @@ import plotly.graph_objects as go
 from dotenv import load_dotenv
 import os
 
-# Pipeline'dan fonksiyon içe aktar
-# pipeline.py içinde bir main(), load_data() veya kendi fonksiyonun varsa onu çağırabilirsin
+# run_pipeline.py dosyasını import et
 try:
-    import pipeline
+    import run_pipeline as pipeline
 except Exception as e:
     st.error(f"Pipeline import edilemedi: {e}")
 
@@ -15,6 +14,8 @@ load_dotenv()
 
 st.set_page_config(page_title="NBA Player Comparison", layout="wide")
 
+# CSV yükleme fonksiyonu
+@st.cache_data
 def load_ranked_players():
     path = "data/processed/player_ranked.csv"
     if not os.path.exists(path):
@@ -33,7 +34,7 @@ def main():
                 pipeline.main()
                 st.success("Pipeline başarıyla çalıştı!")
             else:
-                st.warning("pipeline.py içinde main() fonksiyonu bulunmuyor.")
+                st.warning("run_pipeline.py içinde main() fonksiyonu bulunmuyor.")
         except Exception as e:
             st.error(f"Pipeline çalıştırılamadı: {e}")
 
@@ -54,14 +55,35 @@ def main():
 
         scores = ["final_score", "base_score", "lof_score"]
 
+        # Plotly grafiği düzeltildi
         fig = go.Figure()
-        fig.add_bar(name=p1, x=scores, y=[p1_data[s] for s in scores])
-        fig.add_bar(name=p2, x=scores, y=[p2_data[s] for s in scores])
-        fig.update_layout(barmode="group")
+        fig.add_trace(go.Bar(
+            name=p1,
+            x=scores,
+            y=[p1_data[s] for s in scores],
+            marker_color="#1f77b4",
+            text=[f"{p1_data[s]:.3f}" for s in scores],
+            textposition="auto"
+        ))
+        fig.add_trace(go.Bar(
+            name=p2,
+            x=scores,
+            y=[p2_data[s] for s in scores],
+            marker_color="#ff7f0e",
+            text=[f"{p2_data[s]:.3f}" for s in scores],
+            textposition="auto"
+        ))
+        fig.update_layout(
+            barmode="group",
+            yaxis_title="Skor",
+            xaxis_title="Skor Türü",
+            title="Skor Karşılaştırması",
+            height=400
+        )
         st.plotly_chart(fig, use_container_width=True)
 
-        st.subheader("📋 Detay")
-        st.write(df[df["Player"].isin([p1, p2])] )
+        st.subheader("📋 Detaylı Karşılaştırma")
+        st.dataframe(df[df["Player"].isin([p1, p2])])
 
 if __name__ == "__main__":
     main()
