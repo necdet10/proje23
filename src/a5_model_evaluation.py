@@ -170,9 +170,9 @@ def compare_players(df_ranked, player1, player2):
     print(f"Final: {p1['final_score']:>6.3f} vs {p2['final_score']:>6.3f}")
 
 # ------------------------------
-# ÇALIŞTIR
+# MAIN FONKSİYON
 # ------------------------------
-if __name__ == "__main__":
+def main():
     print("🏀 NBA Oyuncu Sıralaması Başlıyor...\n")
     df_ranked = calculate_player_rankings()
     
@@ -185,3 +185,11 @@ if __name__ == "__main__":
 
     print("\n📋 Tüm Oyuncu Sıralaması:")
     print(df_ranked[['rank', 'Player', 'Pos', 'final_score', 'base_score', 'lof_score', 'is_anomaly']])
+
+    return df_ranked
+
+# ------------------------------
+# ÇALIŞTIR
+# ------------------------------
+if __name__ == "__main__":
+    main()
