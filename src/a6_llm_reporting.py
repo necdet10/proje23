@@ -65,91 +65,6 @@ def main():
 
     df_ranked, df_clean, df_clean_filtered, df_missing = load_data()
 
-    # ------------------------------
-    # Ön İzleme Bölümleri
-    # ------------------------------
-    st.subheader("📄 Clean Data – İlk 15 Satır")
-    if df_clean is not None:
-        st.dataframe(df_clean.head(15))
-    else:
-        st.info("Clean data dosyası bulunamadı.")
-
-    st.subheader("⚠️ Eksik Veri Raporu")
-    if df_missing is not None:
-        st.dataframe(df_missing)
-    else:
-        st.info("Eksik veri raporu bulunamadı.")
-
-    st.subheader("📄 Clean Data Filtered – Sütun İsimleri")
-    if df_clean_filtered is not None:
-        st.write(" | ".join(list(df_clean_filtered.columns)))
-        st.caption("Sadece 2025 yıllarına ait veriler kullanılmıştır. 15 maç altında oynayan oyuncular çıkarılmıştır.")
-        st.subheader("📄 Clean Data Filtered – İlk 15 Satır")
-        st.dataframe(df_clean_filtered.head(15))
-    else:
-        st.info("Clean data filtered dosyası bulunamadı.")
-
-    st.subheader("📄 PCA Açıklama Dosyası")
-    if os.path.exists(PCA_TXT_FILE):
-        with open(PCA_TXT_FILE, "r", encoding="utf-8") as f:
-            pca_content = f.read()
-        st.text_area("PCA İçeriği", value=pca_content, height=300)
-    else:
-        st.info("pca.txt dosyası bulunamadı.")
-
-    st.subheader("📄 PCA Loadings")
-    if os.path.exists(PCA_LOADINGS_CSV):
-        df_loadings = pd.read_csv(PCA_LOADINGS_CSV)
-        st.dataframe(df_loadings)
-    else:
-        st.info("pca_loadings_sorted.csv bulunamadı.")
-
-    st.subheader("📈 PCA Explained Variance Ratio ")
-    if os.path.exists(EXPLAINED_VAR_CSV):
-        df_exp = pd.read_csv(EXPLAINED_VAR_CSV)
-        st.dataframe(df_exp)
-    else:
-        st.info("explained_variance_ratio.csv bulunamadı.")
-
-    st.subheader("📄 PCA Features ")
-    if os.path.exists(PCA_FEATURES_CSV):
-        df_features = pd.read_csv(PCA_FEATURES_CSV)
-        st.dataframe(df_features)
-    else:
-        st.info("pca_features.csv bulunamadı.")
-
-    st.subheader("📄 LOF Açıklama Dosyası ")
-    if os.path.exists(LOF_TXT_FILE):
-        with open(LOF_TXT_FILE, "r", encoding="utf-8") as f:
-            lof_content = f.read()
-        st.markdown(
-            f'<textarea readonly style="width:100%;height:300px;font-size:16px;">{lof_content}</textarea>',
-            unsafe_allow_html=True
-        )
-    else:
-        st.info("lof.txt dosyası bulunamadı.")
-
-    st.subheader("📄 Top 10 Oyuncular ")
-    if os.path.exists(TOP_10_CSV):
-        df_top10 = pd.read_csv(TOP_10_CSV)
-        st.dataframe(df_top10)
-    else:
-        st.info("top_10_players.csv bulunamadı.")
-
-    st.subheader("📄 Middle 10 Oyuncular ")
-    if os.path.exists(MIDDLE_10_CSV):
-        df_middle10 = pd.read_csv(MIDDLE_10_CSV)
-        st.dataframe(df_middle10)
-    else:
-        st.info("middle_10_players.csv bulunamadı.")
-
-    st.subheader("📄 Bottom 10 Oyuncular ")
-    if os.path.exists(BOTTOM_10_CSV):
-        df_bottom10 = pd.read_csv(BOTTOM_10_CSV)
-        st.dataframe(df_bottom10)
-    else:
-        st.info("bottom_10_players.csv bulunamadı.")
-
     # ============================================================
     # ORİJİNAL OYUNCU KARŞILAŞTIRMA KODU
     # ============================================================
@@ -278,6 +193,93 @@ Yanıt Türkçe olsun ve metriklerin oyuncunun sıralamadaki yerini nasıl etkil
     st.sidebar.markdown(f"**Toplam Oyuncu**: {len(df_ranked)}")
     st.sidebar.markdown(f"**Anomali**: {df_ranked['is_anomaly'].sum()}")
     st.sidebar.markdown(f"**Normal**: {(df_ranked['is_anomaly']==0).sum()}")
+
+
+
+    # ------------------------------
+    # Ön İzleme Bölümleri
+    # ------------------------------
+    st.subheader("📄 Clean Data – İlk 15 Satır")
+    if df_clean is not None:
+        st.dataframe(df_clean.head(15))
+    else:
+        st.info("Clean data dosyası bulunamadı.")
+
+    st.subheader("⚠️ Eksik Veri Raporu")
+    if df_missing is not None:
+        st.dataframe(df_missing)
+    else:
+        st.info("Eksik veri raporu bulunamadı.")
+
+    st.subheader("📄 Clean Data Filtered – Sütun İsimleri")
+    if df_clean_filtered is not None:
+        st.write(" | ".join(list(df_clean_filtered.columns)))
+        st.caption("Sadece 2025 yıllarına ait veriler kullanılmıştır. 15 maç altında oynayan oyuncular çıkarılmıştır.")
+        st.subheader("📄 Clean Data Filtered – İlk 15 Satır")
+        st.dataframe(df_clean_filtered.head(15))
+    else:
+        st.info("Clean data filtered dosyası bulunamadı.")
+
+    st.subheader("📄 PCA Açıklama Dosyası")
+    if os.path.exists(PCA_TXT_FILE):
+        with open(PCA_TXT_FILE, "r", encoding="utf-8") as f:
+            pca_content = f.read()
+        st.text_area("PCA İçeriği", value=pca_content, height=300)
+    else:
+        st.info("pca.txt dosyası bulunamadı.")
+
+    st.subheader("📄 PCA Loadings")
+    if os.path.exists(PCA_LOADINGS_CSV):
+        df_loadings = pd.read_csv(PCA_LOADINGS_CSV)
+        st.dataframe(df_loadings)
+    else:
+        st.info("pca_loadings_sorted.csv bulunamadı.")
+
+    st.subheader("📈 PCA Explained Variance Ratio ")
+    if os.path.exists(EXPLAINED_VAR_CSV):
+        df_exp = pd.read_csv(EXPLAINED_VAR_CSV)
+        st.dataframe(df_exp)
+    else:
+        st.info("explained_variance_ratio.csv bulunamadı.")
+
+    st.subheader("📄 PCA Features ")
+    if os.path.exists(PCA_FEATURES_CSV):
+        df_features = pd.read_csv(PCA_FEATURES_CSV)
+        st.dataframe(df_features)
+    else:
+        st.info("pca_features.csv bulunamadı.")
+
+    st.subheader("📄 LOF Açıklama Dosyası ")
+    if os.path.exists(LOF_TXT_FILE):
+        with open(LOF_TXT_FILE, "r", encoding="utf-8") as f:
+            lof_content = f.read()
+        st.markdown(
+            f'<textarea readonly style="width:100%;height:300px;font-size:16px;">{lof_content}</textarea>',
+            unsafe_allow_html=True
+        )
+    else:
+        st.info("lof.txt dosyası bulunamadı.")
+
+    st.subheader("📄 Top 10 Oyuncular ")
+    if os.path.exists(TOP_10_CSV):
+        df_top10 = pd.read_csv(TOP_10_CSV)
+        st.dataframe(df_top10)
+    else:
+        st.info("top_10_players.csv bulunamadı.")
+
+    st.subheader("📄 Middle 10 Oyuncular ")
+    if os.path.exists(MIDDLE_10_CSV):
+        df_middle10 = pd.read_csv(MIDDLE_10_CSV)
+        st.dataframe(df_middle10)
+    else:
+        st.info("middle_10_players.csv bulunamadı.")
+
+    st.subheader("📄 Bottom 10 Oyuncular ")
+    if os.path.exists(BOTTOM_10_CSV):
+        df_bottom10 = pd.read_csv(BOTTOM_10_CSV)
+        st.dataframe(df_bottom10)
+    else:
+        st.info("bottom_10_players.csv bulunamadı.")
 
 
 if __name__ == "__main__":
