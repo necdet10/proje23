@@ -3,47 +3,58 @@ import pandas as pd
 import plotly.graph_objects as go
 from dotenv import load_dotenv
 import os
+import subprocess
+from pathlib import Path
 
-# run_pipeline.py dosyasını import et
-try:
-    import run_pipeline as pipeline
-except Exception as e:
-    st.error(f"Pipeline import edilemedi: {e}")
-
+# ------------------------------
+# Ortam değişkenleri
+# ------------------------------
 load_dotenv()
 
-st.set_page_config(page_title="NBA Player Comparison", layout="wide")
+# Proje kök dizini
+PROJECT_ROOT = Path(__file__).parent.resolve()
+CSV_PATH = PROJECT_ROOT / "data/processed/player_ranked.csv"
 
+# ------------------------------
+# CSV yoksa pipeline'ı çalıştır
+# ------------------------------
+def ensure_csv():
+    if not CSV_PATH.exists():
+        st.info("player_ranked.csv bulunamadı. Pipeline çalıştırılıyor...")
+        try:
+            subprocess.run(["python", str(PROJECT_ROOT / "run_pipeline.py")], check=True)
+            st.success("Pipeline çalıştı ve CSV oluşturuldu.")
+        except Exception as e:
+            st.error(f"Pipeline çalıştırılamadı: {e}")
+            st.stop()  # CSV yoksa uygulamayı durdur
+
+# ------------------------------
 # CSV yükleme fonksiyonu
+# ------------------------------
 @st.cache_data
 def load_ranked_players():
-    path = "data/processed/player_ranked.csv"
-    if not os.path.exists(path):
-        st.error(f"{path} bulunamadı.")
-        return None
-    return pd.read_csv(path)
+    ensure_csv()  # CSV varsa atlanır, yoksa oluşturulur
+    return pd.read_csv(CSV_PATH)
 
+# ------------------------------
+# Ana uygulama
+# ------------------------------
 def main():
+    st.set_page_config(page_title="NBA Player Comparison", layout="wide")
     st.title("🏀 NBA Oyuncu Karşılaştırma Aracı")
 
-    # Pipeline çalıştırma butonu
+    # Pipeline butonu (opsiyonel, kullanıcı tekrar çalıştırabilir)
     st.sidebar.subheader("⚙️ Pipeline")
     if st.sidebar.button("Pipeline'ı çalıştır"):
         try:
-            if hasattr(pipeline, "main"):
-                pipeline.main()
-                st.success("Pipeline başarıyla çalıştı!")
-            else:
-                st.warning("run_pipeline.py içinde main() fonksiyonu bulunmuyor.")
+            subprocess.run(["python", str(PROJECT_ROOT / "run_pipeline.py")], check=True)
+            st.success("Pipeline başarıyla çalıştı!")
         except Exception as e:
             st.error(f"Pipeline çalıştırılamadı: {e}")
 
     df = load_ranked_players()
-    if df is None:
-        st.stop()
 
     players = df["Player"].tolist()
-
     p1 = st.sidebar.selectbox("Oyuncu 1", players, index=0)
     p2 = st.sidebar.selectbox("Oyuncu 2", players, index=1)
 
@@ -52,10 +63,8 @@ def main():
         p2_data = df[df["Player"] == p2].iloc[0]
 
         st.subheader("📊 Skor Karşılaştırması")
-
         scores = ["final_score", "base_score", "lof_score"]
 
-        # Plotly grafiği düzeltildi
         fig = go.Figure()
         fig.add_trace(go.Bar(
             name=p1,
@@ -85,5 +94,6 @@ def main():
         st.subheader("📋 Detaylı Karşılaştırma")
         st.dataframe(df[df["Player"].isin([p1, p2])])
 
+# ------------------------------
 if __name__ == "__main__":
     main()
